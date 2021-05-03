@@ -1,0 +1,17 @@
+Q1a
+To download the file: curl https://downloads.mysql.com/docs/world_x-db.zip > world_x-db.zip
+To install unzip: sudo apt install unzip
+To install database into MySQL: SOURCE /home/ubuntu/Week_08/world_x-db/world_x.sql
+To show the tables: use world_x
+                    SHOW TABLES
+
+
+Q1b
+SELECT C1.Name As EnglishSpeakingCountry, CL.Percentage AS SpeakingPercentage, C1.Name As CountryName, C2.Name As CountryCapital
+    -> FROM country C1
+    -> LEFT OUTER JOIN countrylanguage CL
+    -> ON CL.CountryCode = C1.Code
+    -> INNER JOIN city C2
+    -> ON C2.ID = C1.Capital
+    -> Where CL.Language = 'English'
+    -> Having CL.Percentage >=50;
