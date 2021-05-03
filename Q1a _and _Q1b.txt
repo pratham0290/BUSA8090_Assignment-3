@@ -1,6 +1,7 @@
 Q1a
 To download the file: curl https://downloads.mysql.com/docs/world_x-db.zip > world_x-db.zip
 To install unzip: sudo apt install unzip
+To Unzip: unzip world_x-db.zip
 To install database into MySQL: SOURCE /home/ubuntu/Week_08/world_x-db/world_x.sql
 To show the tables: use world_x
                     SHOW TABLES
