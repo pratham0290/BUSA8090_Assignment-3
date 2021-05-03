@@ -1,0 +1,93 @@
+---
+title: "BUSA8090 Assignment 3 Question 2"
+author: "Prathamesh Devaraju"
+date: "03/05/2021"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Libraries Used are as follows:
+1. ggplot2: Used to plot data
+2. tidyverse: Can be used to tidy up the data if required like for eg '%>%'
+3. knitr, rmarkdown: It is to be used as the file is made into Rmarkdwon file format (.rmd) 
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(knitr, rmarkdown)
+```
+
+```{r}
+vaccine_rollout = data.frame(
+  Countries = c("United States", "Australia", "China", "France", "India", "Turkey", "United Kingdom", "Germany", "Brazil"),
+  Doses = c(213.39, 1.65, 195.02, 17.45, 127.13, 20.28, 43.46, 22.94, 33.81)
+)
+vaccine_rollout
+summary(vaccine_rollout)
+```
+1. As we don't have any data set provided we have to generate a dataframe from the given graph in the question that have variables Countries and Doses. 'data.frame' is used to do so.
+2. vaccine_rollout: It gives us the output in the tabular form so that further plots can be plotted.
+3. Summary gives the type of class of variables, and will give all the basic statistical values of variables that are of type double, int.
+```{r}
+#Without stat='identity' ggplot wants to aggregate your data into counts.
+Q2 = ggplot(vaccine_rollout, aes(x = fct_reorder(Countries,Doses), y = Doses))+
+     geom_bar(stat = 'identity', aes(fill = Doses))+
+     coord_flip()+
+     xlab("Countries")+
+     ylab("Doses(per million)")+
+     labs(title = "BUSA8090 Assignment 3 Question 2",
+       subtitle = "COVID-19 Vaccine Doses Administered, April 20 2021",
+       caption = "Total Number Of vaccination Doses Administered")+
+     geom_text(aes(label=paste(Doses, "million"), y=200), hjust=0.5, color="red", size=05)+
+     theme(plot.title = element_text(size = 20),
+        plot.subtitle = element_text(size = 18),
+        plot.caption = element_text(size = 15),
+        text = element_text(size=15, colour = "black"),
+        axis.text.x = element_text(size=15),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 15),
+        )
+
+
+Q2
+
+```
+
+1. 'ggplot(vaccine_rollout, aes(x = fct_reorder(Countries,Doses), y = Doses))+': In this piece of code the dataframe vaccine_rollout is used to plot a bar plot. Here we will have to do a fct_reorder to plot the x-axis. 
+    fct_reorder is useful for 1d displays where factor i.e Doses will be mapped to the position in ascending order of doses that have been rolled out by a respective country. 
+    As we are plotting a horizontal Bar plot our X-axis and Y-axis will be interchanged so in this our Y-axis will be 'Doses'. '+' operator is used as pipe so that more objects or customization can be added in the plot.
+
+2. 'geom_bar(stat = 'identity', aes(fill = Doses))+': geom_bar is used to plot a bar plot. Here if we don't use 'stat = 'identity'' then ggplot will aggregate the data into counts. 
+    aes(fill = Doses)' will fill the barchart in the differnt shades of blue and there is no need to specify any color pallete using colour_brewer because if nothing is specified ggplot takes shades of blue as a default colour.
+
+3. 'coord_flip()': This function flips the plot into horizaontal plot.
+
+4. xlab("Countries"): This is used to give a label to X-axis.
+
+5. ylab("Doses(per million)"): This is used to give a label to Y-axis.
+
+6. labs(title = "BUSA8090 Assignment 3 Question 2",
+       subtitle = "COVID-19 Vaccine Doses Administered, April 20 2021",
+       caption = "Total Number Of vaccination Doses Administered"):
+   The above codes are written to give the barplot Title, Subtitle and caption So as to make the      plot more descriptive.
+   
+7. 'geom_text(aes(label=paste(Doses, "million"), y=200), hjust=0.5, color="red", size=05)+': This piece of code is written so that the exact number of doses rolled out appear on the barplot. 
+    As it is used to improve aesthetics of the barplot 'aes' is used. Further 'label=paste(Doses,"million")' is used. Where paste is used so that every entry gets "million" in the end. 
+    'y=200' is done so that all of the specific barchart entries get aligned and the bar plot will look good. 'hjust=0.5' is used to align the text horizontally and its value is set to 0.5 which
+    means that the text is centrally aligned to the axis. 'color="red"' to change the colour of the     number of doses. 'size=05' changes the font size of the number of doses rolled out.
+
+8. 'theme(plot.title = element_text(size = 20),
+        plot.subtitle = element_text(size = 18),
+        plot.caption = element_text(size = 15),
+        text = element_text(size=15, colour = "black"),
+        axis.text.x = element_text(size=15),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 15),
+        )': This chunk of code is mainly to change the themes of the axis-names, title, subtitles,legend title, legendtext fonts, colour of the text.
+```{r}
+ggsave("Q2.png", width = 15, height = 10, limitsize = FALSE)
+```
+ggsave is used to save the code in the working directory or in the location where .R or .Rmd file is already saved.
